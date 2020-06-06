@@ -33,11 +33,12 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type', 'application/javascrip')
     response.write(string)
     response.end()
-  }else if(path === '/pay' && method.toUpperCase() === 'POST'){  //如果路径是pay，且发送的是post
+  }else if(path === '/pay'){  //如果路径是pay
     var amount = fs.readFileSync('./db','utf8') //100
     var newAmount = amount - 1
     fs.writeFileSync('./db',newAmount)
-    response.write('success')
+    response.setHeader('Content-Type', 'image/png')
+    response.write(fs.readFileSync('./a.png'))
     response.end()
   }else{
     response.statusCode = 400
