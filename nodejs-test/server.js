@@ -22,9 +22,9 @@ var server = http.createServer(function(request, response){
   console.log('方方说：含查询字符串的路径\n' + pathWithQuery)
 
   if(path === '/'){      //如果用户请求的路径是根目录
-    var string = fs.readFileSync('./index.html','utf8')
-    var amount = fs.readFileSync('./db','utf8')
-    string = string .replace('&&&amount&&&',amount)
+    var string = fs.readFileSync('./index.html','utf8')  
+    var amount = fs.readFileSync('./db','utf8')    //读取这两个文件里的内容
+    string = string .replace('&&&amount&&&',amount)  //把db数据库文件里的内容替换进文中&&&amount&&&处
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
     response.write(string)
     response.end()
@@ -33,7 +33,7 @@ var server = http.createServer(function(request, response){
     response.setHeader('Content-Type', 'application/javascrip')
     response.write(string)
     response.end()
-  }else if(path === '/pay' && method.toUpperCase() === 'POST'){
+  }else if(path === '/pay' && method.toUpperCase() === 'POST'){  //如果路径是pay，且发送的是post
     var amount = fs.readFileSync('./db','utf8') //100
     var newAmount = amount - 1
     fs.writeFileSync('./db',newAmount)
