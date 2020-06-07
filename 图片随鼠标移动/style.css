@@ -1,0 +1,33 @@
+*{margin: 0;padding:0;box-sizing: border-box;}
+
+body{
+    height: 100vh;
+    overflow: hidden;
+    /* position: relative; */
+}
+#container{
+    height: 120vh;
+    width: 120%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image:url('./星愿.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/* .card{
+    position: absolute;
+    /* margin-top: 20%;
+    margin-right: 15%;
+    margin-bottom: 20%;
+    float: right; */
+    /* top: 10%;
+    right: 5%;
+    bottom: 10%; */
+    /* max-width: 500px;
+    text-align: center; */
+    /* display: flex; */
+    /* border: 1px solid red;
+    border-radius: 10px; */
+/* }  */
