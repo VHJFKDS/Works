@@ -37,8 +37,9 @@ var server = http.createServer(function(request, response){
     var amount = fs.readFileSync('./db','utf8') //100
     var newAmount = amount - 1
     fs.writeFileSync('./db',newAmount)
-    response.setHeader('Content-Type', 'image/png')
-    response.write(fs.readFileSync('./a.png'))
+    response.setHeader('Content-Type', 'application/javascript')
+    response.write(`
+      amount.innerText = amount.innerText - 1`)   //这段代码为什么会被当做js执行，是因为它基于http协议，上面就声明了是js代码，而且我们以script引入
     response.end()
   }else{
     response.statusCode = 400
