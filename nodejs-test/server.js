@@ -39,7 +39,8 @@ var server = http.createServer(function(request, response){
     fs.writeFileSync('./db',newAmount)
     response.setHeader('Content-Type', 'application/javascript')
     response.write(`
-      amount.innerText = amount.innerText - 1`)   //这段代码为什么会被当做js执行，是因为它基于http协议，上面就声明了是js代码，而且我们以script引入
+      ${query.callback}.call(undefined,'success')
+      `)  
     response.end()
   }else{
     response.statusCode = 400
