@@ -1,0 +1,331 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>八仙过海</title>
+<link rel="stylesheet" href="../reset.css" type="text/css"/>
+<style>
+	body{
+		background-color: #292929;
+		color: azure;
+	}
+	#title{
+		width: 100%;
+		margin: auto;
+		padding-top: 20px;
+		padding-bottom: 20px; 
+		border: 0px solid #ff0000;
+	}
+	h1{
+		text-align: center;
+		font-size: 42px;
+	}
+	#ballWin{
+		position: relative;
+		width: 600px;
+		height: 300px;
+		margin: auto;
+		background-color: #3B3D3F;
+		border: 1px solid #58595B;
+	}
+	
+	#winOfGameover{
+		position: absolute;
+		top: 150px;
+		left: 300px;
+		width: 0px;
+		height: 0px;
+		background-color: antiquewhite;
+		overflow: hidden;
+	}
+	
+	#result{
+		margin: 30px auto;
+		width: 150px;
+		height: 150px;
+		border-radius: 75px;
+		background-color: antiquewhite;
+		border: 1px solid #58595b;
+		color: black;
+		font-size: 130px;
+		font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+		text-align: center;
+		line-height: 146px;
+	}
+	
+	#restart{
+		display: block;
+		margin: 50px auto;
+		width: 100px;
+		height: 46px;
+		background-color: antiquewhite;
+		border: 1px solid #58595b;
+		font-size: 16px;
+	}
+	
+	#buttons{
+		width: 600px;
+		height: 80px;
+		margin: 10px auto;
+		background: #3b3d3f;
+		border: 1px solid #58595b;
+	}
+	
+	.bt{
+		float: left;
+	}
+	
+	#center{
+		width: 280px;
+		height: 100%;
+		line-height: 20px;
+	}
+	
+	#notic{
+		display: block;
+		width: 100%;
+		height: 40px;
+		text-align: center;
+		margin-top: 20px;
+	}
+	
+	#left,#right{
+		width: 150px;
+		height: 100%;
+	}
+	
+	#begin{
+		display: block;
+		width: 90px;
+		height: 40px;
+		margin: 20px auto;
+		color: azure;
+		font-size: 16px;
+		background-color: #3b3d3f;
+	}
+	
+	#up,#down{
+		display: block;
+		width: 90px;
+		height: 25px;
+		margin: 8px auto;
+		color: azure;
+		font-size: 16px;
+		background-color: #3b3d3f;
+	}
+</style>
+</head>
+
+<body>
+	<div id="win">
+		<div id="title">
+			<h1>八仙过海</h1>
+		</div>
+		<div id="ballWin">
+			<div id="ballInside" style="margin: 24px;height: 258px;width: 558px"></div>
+			<div id="winOfGameover">
+				<div id="result"></div>
+				<button id="restart" onClick="restartGame()">再玩一次</button>
+			</div>
+		</div>
+		<div id="buttons">
+			<div id="left" class="bt">
+				<button id="begin" onClick="begin()">点击开始</button>
+			</div>
+			<div id="center" class="bt">
+				<p id="notic" style="font-size: 16px"></p>
+			</div>
+			<div id="right" class="bt">
+				<button id="up" onClick="upClick()">上一排</button>
+				<button id="down" onClick="downClick()">下一排</button>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		//定义变量
+		var ballcontent = document.getElementById('ballInside');
+		
+		//页面加载完的初始状态
+		window.onload = function(){
+			var ballWLeft = ballcontent.offsetLeft;
+			var ballWTop = ballcontent.offsetTop;
+			for(var i = 0;i < 8;i++){
+				var element = document.createElement('div');
+				element.style.width = 100 + 'px';
+				element.style.height = 100 + 'px';
+				element.style.borderRadius = 50 + 'px';
+				element.style.backgroundColor = 'antiquewhite';
+				element.style.position = 'absolute';
+				element.style.float = 'left';
+				element.style.fontSize = 60 + 'px';
+				element.style.color = 'black';
+				element.style.textAlign = 'center';
+				element.style.lineHeight = 96 + 'px';//让文字位于视觉中心
+				
+				if(i < 4){
+					element.style.left = (150 * i + ballWLeft) + 'px';
+					element.style.top = ballWTop + 'px';
+				}else{
+					element.style.top = ballWTop + 140 + 'px';
+					element.style.left = (150 * (i -4) + ballWLeft) + 'px';
+				}
+				ballcontent.appendChild(element);
+			}
+		}
+		
+		var balls = ballcontent.children;
+		var notic = document.getElementById('notic');
+		var numArray = [];//随机数
+		var ballNumArray = [];//存放8个随机选择的数
+		var ballNumbackup;//备份8个随机选择的数
+		var clickCount = 0;//点击次数
+		var clickContent = '';//记录点击内容
+		//点击开始按钮
+		function begin(){
+			for(var i = 0;i < 20;i++){
+				numArray[i] = i;
+			}//修改i的最大值可改变随机数组的范围
+			
+			function radomPos(arr){
+				var k,num;
+				k = Math.floor(Math.random() * numArray.length);//随机位置
+				num = numArray[k];//存储随机选择出来的数
+				delete numArray[k];//删除选出的这个数
+				numArray[k] = numArray[numArray.length - 1];//把数组最后一个数
+				numArray.pop();
+				return num;
+			}
+			for(var i = 0;i < balls.length;i++){
+				var num = radomPos(numArray);
+				balls[i].innerHTML = num;
+				ballNumArray[i] = num;
+			}
+			ballNumbackup = ballNumArray;
+			notic.innerHTML = '1、选择一个数记下来，只告诉我它在上一排还是下一排。';
+			
+			document.getElementById('begin').setAttribute('disabled',true);
+			document.getElementById('begin').style.color = 'gray';
+		}
+		
+		function upClick(){
+			clickContent += '1';
+			changeNumPos();
+		}
+		
+		function downClick(){
+			clickContent += '0';
+			changeNumPos();
+		}
+		
+		function changeNumPos(){
+			clickCount += 1;
+			
+			if(clickCount == 1){
+				notic.innerHTML = '2、现在你选的数在上一排还是下一排？';
+			}
+			if(clickCount == 2){
+				notic.innerHTML = '3、它又跑哪儿去了，上还是下？';
+			}
+			if(clickCount == 3){
+				isNum();
+			}
+			
+			var newSort = [6,2,7,3,4,0,5,1];
+			var bakArr = [];
+			for(var i = 0;i < ballNumArray.length;i++){
+				balls[i].innerHTML = ballNumArray[newSort[i]];
+				bakArr[i] = ballNumArray[newSort[i]];
+			}
+			ballNumArray = bakArr;
+		}
+		
+		var pos;
+		function isNum(){
+			switch(clickContent){
+				case '000':
+					pos = ballNumbackup[4];
+					break;
+				case '001':
+					pos = ballNumbackup[5];
+					break;
+				case '010':
+					pos = ballNumbackup[6];
+					break;
+				case '011':
+					pos = ballNumbackup[7];
+					break;
+				case '100':
+					pos = ballNumbackup[0];
+					break;	
+				case '101':
+					pos = ballNumbackup[1];
+					break;	
+				case '110':
+					pos = ballNumbackup[2];
+					break;
+				case '111':
+					pos = ballNumbackup[3];
+					break;
+			}
+			notic.innerHTML = '';
+			document.getElementById('up').setAttribute('disabled',true);
+			document.getElementById('up').style.color = 'gray';
+			document.getElementById('down').setAttribute('disabled',true);
+			document.getElementById('down').style.color = 'gray';
+			restart();
+		}
+		
+		var timer = null;
+		function restart(){
+			var res = document.getElementById('winOfGameover');
+			if(timer != null){
+				clearInterval(timer);
+			}
+			timer = setInterval(result,10);
+			var speed = 10;
+			function result(){
+				res.style.visibility = 'visible';
+				res.style.top = res.offsetTop - speed + 'px';
+				res.style.left = res.offsetLeft - 2 * speed + 'px';
+				res.style.width = res.offsetWidth + 4 * speed + 'px';
+				res.style.height = res.offsetHeight + 2 * speed + 'px';
+				
+				document.getElementById('result').innerHTML = pos;
+				if(res.offsetTop == 0){
+					clearInterval(timer);
+				}
+			}
+		}
+		
+		function restartGame(){
+			document.getElementById('begin').removeAttribute("disabled");
+			document.getElementById('begin').style.color = 'azure';
+			document.getElementById('up').removeAttribute("disabled");
+			document.getElementById('up').style.color = 'azure';
+			document.getElementById('down').removeAttribute("disabled");
+			document.getElementById('down').style.color = 'azure';
+			for(var i = 0;i < balls.length;i++){
+				balls[i].innerHTML = '';
+			}
+			notic.innerHTML = '';
+			clickContent = '';
+			clickCount = 0;
+			var res = document.getElementById('winOfGameover');
+			res.style.visibility = 'hidden';
+			res.style.width = 0 + 'px';
+			res.style.height = 0 + 'px';
+			res.style.top = 150 + 'px';
+			res.style.left = 300 + 'px';
+		}
+		
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
