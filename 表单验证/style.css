@@ -70,3 +70,6 @@ h2{
     margin-top: 10px;
     width: 100%;
 }
+.form button:focus{
+    outline: none;
+}
