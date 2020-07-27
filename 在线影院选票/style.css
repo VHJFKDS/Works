@@ -49,6 +49,10 @@ body .text span {
           appearance: none;
 }
 
+.movie-container select:focus {
+  outline: none;
+}
+
 .row {
   display: -webkit-box;
   display: -ms-flexbox;
