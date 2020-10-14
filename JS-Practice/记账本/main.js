@@ -7,14 +7,18 @@ const text = document.getElementById('text')
 const amount = document.getElementById('amount')
 
 //创建虚拟交易数组
-const dummyTransactions = [
-    {id:1,text:'鲜花',amount:-20},
-    {id:2,text:'书籍',amount:-50},
-    {id:3,text:'相机',amount:150},
-    {id:4,text:'工资',amount:300},
-]
+// const dummyTransactions = [
+//     {id:1,text:'鲜花',amount:-20},
+//     {id:2,text:'书籍',amount:-50},
+//     {id:3,text:'相机',amount:150},
+//     {id:4,text:'工资',amount:300},
+// ]
+// let transactions = dummyTransactions
 
-let transactions = dummyTransactions
+const localStrageTransactions = JSON.parse(localStorage.getItem("transactions"))
+
+let transactions = 
+localStorage.getItem('transactions') !== null ? localStrageTransactions : []
 
 //设置addTransaction函数
 function addTransaction(e){
@@ -32,6 +36,8 @@ function addTransaction(e){
         transactions.push(transaction)
         addTransactionDOM(transaction)
         updateValues()
+        updataLocalStorage()
+
         text.value = ""
         amount.value = ""
     }
@@ -89,8 +95,15 @@ function updateValues(){
 function removeTransaction(id){  
     //过滤掉没有点击的id
     transactions = transactions.filter(transaction =>transaction.id !== id)
+    updataLocalStorage()
     init()
 }
+
+//更新本地存储数据
+function updataLocalStorage(){
+    localStorage.setItem('transactions',JSON.stringify(transactions))
+}
+
 //初始化应用
 function init(){
     list.innerHTML = ''
