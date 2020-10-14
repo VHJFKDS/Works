@@ -16,6 +16,33 @@ const dummyTransactions = [
 
 let transactions = dummyTransactions
 
+//设置addTransaction函数
+function addTransaction(e){
+    e.preventDefault()
+
+    //验证输入框是否为空
+    if(text.value.trim() === "" || amount.value.trim() === ""){
+        alert('请输入交易名称和金额')
+    }else{
+        const transaction = {
+            id:generateID(),
+            text:text.value,
+            amount:+amount.value
+        }
+        transactions.push(transaction)
+        addTransactionDOM(transaction)
+        updateValues()
+        text.value = ""
+        amount.value = ""
+    }
+}
+
+//创建
+function generateID(id){
+    return Math.floor(Math.random()*10000000000)
+}
+
+
 //添加transactions交易到DOM list中
 function addTransactionDOM(transaction){
     //获得金额前面的符号
@@ -27,7 +54,7 @@ function addTransactionDOM(transaction){
     //基于金额的正负添加对应的类名
     item.classList.add(transaction.amount <0 ? "minus" : "plus")
     item.innerHTML = `
-    ${transaction.text}<span>${sign}${Math.abs(transaction.amount)}</span><button class="delete-btn">x</button>
+    ${transaction.text}<span>${sign}${Math.abs(transaction.amount)}</span><button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
     `
     list.appendChild(item)
 }
@@ -57,6 +84,13 @@ function updateValues(){
     money_minus.innerText =`$${expense}`
 }
 
+
+//设置removeTransaction
+function removeTransaction(id){  
+    //过滤掉没有点击的id
+    transactions = transactions.filter(transaction =>transaction.id !== id)
+    init()
+}
 //初始化应用
 function init(){
     list.innerHTML = ''
@@ -64,3 +98,6 @@ function init(){
     updateValues()
 }
 init()
+
+//事件监听
+form.addEventListener('submit',addTransaction)
