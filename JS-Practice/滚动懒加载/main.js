@@ -33,5 +33,28 @@ async function showPosts(){
     });
 }
 
+//showLoading
+function showLoading(){
+    loading.classList.add('show')
+    setTimeout(() => {
+        loading.classList.remove('show')
+        setTimeout(() => {
+            page++;
+            showPosts()
+        }, 300);
+    },1000)
+}
+
 //初始化页面
 showPosts()
+
+//事件监听
+window.addEventListener('scroll',()=>{
+    const {scrollTop,scrollHeight,clientHeight} = document.documentElement
+
+    //滚动条顶部和视口顶部高度+body视口高度 >=元素内容高度，代表已滚动到底部，-5是为了提高灵敏度
+    if(scrollTop+clientHeight >= scrollHeight-5){
+       showLoading()
+    }
+})
+
