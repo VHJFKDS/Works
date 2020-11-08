@@ -42,8 +42,27 @@ function showLoading(){
             page++;
             showPosts()
         }, 300);
-    },1000)
+    },800)
 }
+
+
+//filterPosts
+function filterPosts(e){
+   const term = e.target.value.toUpperCase() 
+   const posts = document.querySelectorAll('.post')
+   posts.forEach(post=>{  //遍历posts里的每个post
+       const tilte = post.querySelector('.post-title').innerText.toUpperCase()
+       const body = post.querySelector('.post-body').innerText.toUpperCase()
+
+       //判断tilte和body里的内容是否匹配输入的
+       if(tilte.indexOf(term) > -1 || body.indexOf(term) > -1){
+          post.style.display = 'flex'
+       }else{
+           post.style.display = 'none'
+       }
+   })
+}
+
 
 //初始化页面
 showPosts()
@@ -58,3 +77,4 @@ window.addEventListener('scroll',()=>{
     }
 })
 
+filter.addEventListener('input',filterPosts)
