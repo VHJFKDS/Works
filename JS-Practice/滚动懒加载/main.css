@@ -58,7 +58,7 @@ h1{
     padding: 7px 10px;
 }
 .loader{
-    /* opacity: 0; */
+    opacity: 0;
     display: flex;
     position: fixed;
     bottom: 50px;
