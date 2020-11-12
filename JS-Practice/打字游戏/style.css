@@ -26,7 +26,7 @@ select:focus,
 button:focus{
     outline: 0;
 }
-.setting-btn{
+.settings-btn{
     position: absolute;
     bottom: 30px;
     left: 30px;
@@ -75,14 +75,15 @@ input{
 
 .time-container{
     position: absolute;
-    top: 60px;
+    top: 70px;
     left: 20px;
 }
 .score-container{
     position: absolute;
-    top: 60px;
+    top: 70px;
     right: 20px;
 }
+
 .end-game-container{
     background-color: inherit;
     display: none;
