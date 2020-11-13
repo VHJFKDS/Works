@@ -44,6 +44,12 @@ let score = 0
 //初始时间
 let time = 10
 
+//聚焦到text输入框
+text.focus()
+
+//开始倒数
+const timeInterval = setInterval(updateTime, 1000);
+
 //设置随机产生单词
 function getRandomWord(){
     return words[Math.floor(Math.random()*words.length)]
@@ -64,6 +70,25 @@ function updateScore(){
     scoreEl.innerHTML = score
 }
 
+//更新剩余时间updateTime
+function updateTime(){
+    time--
+    timeEl.innerHTML = time +'s'
+    if(time === 0){
+        clearInterval(timeInterval)
+        gameOver()
+    }
+}
+
+//游戏结束
+function gameOver(){
+    endgameEl.style.display = 'flex'
+    endgameEl.innerHTML = `
+    <h1>游戏结束</h1>
+    <p>您的最终得分为${score}</p>
+    <button onclick="location.reload()">再玩一次</button>
+    `
+}
 
 
 //设置text的事件监听
@@ -73,5 +98,8 @@ text.addEventListener('input',e=>{
         addWordToDOM()
         updateScore()
         e.target.value = ''
+
+        time+=5
+        updateTime()
     }
 })
