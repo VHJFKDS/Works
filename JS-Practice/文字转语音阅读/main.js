@@ -72,9 +72,6 @@ function getVoices(){
 }
 
 
-//切换语音
-speechSynthesis.addEventListener('voiceschanged',getVoices)
-
 
 
 //createBox
@@ -109,6 +106,15 @@ function setTextMessage(text){
 function speakText(){
     speechSynthesis.speak(message)
 }
+//切换语音
+speechSynthesis.addEventListener('voiceschanged',getVoices)
+
+
+
+//切换语音
+function setVoice(e){
+  message.voice = voices.find(voice =>voice.name === e.target.value)
+}
 
 //切换文字框事件监听
 toggleBtn.addEventListener('click',()=>document.getElementById('text-box').classList.toggle('show'))
@@ -116,3 +122,13 @@ toggleBtn.addEventListener('click',()=>document.getElementById('text-box').class
 //关闭按钮
 closeBtn.addEventListener('click',()=>document.getElementById('text-box').classList.remove('show'))
 
+//下拉框监听
+voicesSelect.addEventListener('change',setVoice)
+
+//阅读文字按钮监听
+readBtn.addEventListener('click',()=>{
+    setTextMessage(textarea.value)
+    speakText()
+})
+
+getVoices()
