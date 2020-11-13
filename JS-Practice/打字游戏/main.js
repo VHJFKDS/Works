@@ -44,6 +44,12 @@ let score = 0
 //初始时间
 let time = 10
 
+//难度选择
+let difficulty = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') :'medium'
+
+//更新难度选项
+difficultySelect.value = localStorage.getItem('difficulty') !== null ? localStorage.getItem('difficulty') :'medium'
+
 //聚焦到text输入框
 text.focus()
 
@@ -99,7 +105,22 @@ text.addEventListener('input',e=>{
         updateScore()
         e.target.value = ''
 
-        time+=5
+        if(difficulty === 'hard'){
+            time+=2
+        }else if(difficulty === 'medium'){
+            time+=3
+        }else{
+            time+=5
+        }
         updateTime()
     }
+})
+
+//按钮事件监听
+settingsBtn.addEventListener('click',()=>settings.classList.toggle('hide'))
+
+//下拉框事件监听
+settingsForm.addEventListener('change',e=>{
+    difficulty = e.target.value
+    localStorage.setItem('difficulty',difficulty)
 })
