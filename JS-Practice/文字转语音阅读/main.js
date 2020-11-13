@@ -86,7 +86,28 @@ function createBox(item){
     <img src="${image}" alt="${text}">
     <p class="info">${text}</p>
     `
+
+    //点击按钮阅读
+    box.addEventListener('click',()=>{
+        setTextMessage(text)
+        speakText()
+
+        box.classList.add('active')
+        setTimeout(()=>box.classList.remove('active'),1000)
+    })
     main.appendChild(box)
+}
+
+//初始化speechsynth
+const message = new SpeechSynthesisUtterance()
+
+//获得文字
+function setTextMessage(text){
+    message.text = text
+}
+
+function speakText(){
+    speechSynthesis.speak(message)
 }
 
 //切换文字框事件监听
