@@ -1,5 +1,5 @@
 # demo
 
-此仓用于存放css,JS等各类型小项目，小技巧
+此处存放css,JS等各类型小项目，功能
 
-八仙过海：https://vhjfkds.github.io/works/八仙过海/八仙过海.html
+预览：
